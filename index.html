@@ -51,4 +51,84 @@
     .form-section textarea {
       width: 100%;
       height: 150px;
-      padding
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .form-section button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .form-section button:hover {
+      background-color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to the Website Game</h1>
+
+  <div class="container">
+    <h2>Options</h2>
+    <button class="button" id="playGameBtn">Click to Play the Game</button>
+  </div>
+
+  <div class="container form-section">
+    <h2>Leave a Review</h2>
+    <textarea id="reviewText" placeholder="Write your review here... (Max 300 words)"></textarea>
+    <button class="button" id="submitReview">Submit Review</button>
+  </div>
+
+  <div class="container form-section">
+    <h2>Tell Me a Story</h2>
+    <textarea id="storyText" placeholder="Write your story here... (Max 300 words)"></textarea>
+    <button class="button" id="submitStory">Submit Story</button>
+  </div>
+
+  <div id="gameContainer">
+    <!-- Embed the Flappy Bird Game -->
+    <iframe src="https://flappybird.io" width="100%" height="100%" frameborder="0" style="border: none;"></iframe>
+  </div>
+
+  <!-- Music -->
+  <audio id="backgroundMusic" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-dreams.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Play game button functionality
+    document.getElementById("playGameBtn").addEventListener("click", function() {
+      document.getElementById("gameContainer").style.display = "block";
+      this.style.display = "none";
+    });
+
+    // Submit review functionality
+    document.getElementById("submitReview").addEventListener("click", function() {
+      const review = document.getElementById("reviewText").value;
+      if (review.length <= 300) {
+        alert("Review submitted: " + review);
+      } else {
+        alert("Review is too long. Please keep it under 300 words.");
+      }
+    });
+
+    // Submit story functionality
+    document.getElementById("submitStory").addEventListener("click", function() {
+      const story = document.getElementById("storyText").value;
+      if (story.length <= 300) {
+        alert("Story submitted: " + story);
+      } else {
+        alert("Story is too long. Please keep it under 300 words.");
+      }
+    });
+  </script>
+
+</body>
+</html>
