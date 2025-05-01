@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fun World</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1rem;
+    }
+    section {
+      padding: 2rem;
+    }
+    form input, form textarea {
+      display: block;
+      margin: 1rem auto;
+      width: 80%;
+      padding: 0.5rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome to Fun World!</h1>
+    <p>Play, Review, Enjoy Stories</p>
+  </header>
+
+  <section id="play-game">
+    <h2>1. Play Game</h2>
+    <p><a href="https://snake.googlemaps.com/" target="_blank">Click here to play Snake Game 🐍</a></p>
+
+    <h3>1.1 Leave a Review</h3>
+    <form id="review-form">
+      <input type="text" placeholder="Your Name" required />
+      <textarea placeholder="Your Review" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+    <p id="thanks-message" style="color:green;"></p>
+    <audio id="review-audio" controls autoplay>
+      <source src="https://cdn.pixabay.com/download/audio/2023/01/29/14-22-05-2058.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+  </section>
+
+  <section id="story">
+    <h2>2. Tell Me a Story</h2>
+    <p id="story-text">Click below to hear a story.</p>
+    <button onclick="generateStory()">Tell Me a Story</button>
+    <audio id="story-audio" controls autoplay>
+      <source src="https://cdn.pixabay.com/download/audio/2023/01/29/14-16-58-8772.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+  </section>
+
+  <script>
+    const stories = [
+      "Once upon a time, in a land full of frogs and robots...",
+      "A cat named Pickles ruled the Internet in 2035...",
+      "Deep inside the server farm, one AI dreamt of being a poet...",
+    ];
+
+    function generateStory() {
+      const random = Math.floor(Math.random() * stories.length);
+      document.getElementById("story-text").innerText = stories[random];
+      document.getElementById("story-audio").play();
+    }
+
+    document.getElementById("review-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      document.getElementById("thanks-message").innerText = "Thanks for your review!";
+      document.getElementById("review-audio").play();
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
