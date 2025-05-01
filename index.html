@@ -25,30 +25,6 @@
       background-color: #1a001a;
     }
 
-    textarea, button {
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
-      margin-top: 10px;
-    }
-
-    textarea {
-      background-color: #330033;
-      color: #fff;
-      width: 80%;
-    }
-
-    button {
-      background-color: #8000ff;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #a64dff;
-    }
-
     canvas {
       max-width: 100%;
     }
@@ -57,10 +33,19 @@
       margin-top: 20px;
     }
 
-    #submittedStory, #reviewTextDisplay {
-      white-space: pre-wrap;
-      color: #e6ccff;
+    button {
+      padding: 15px;
+      background-color: #8000ff;
+      border: none;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 5px;
       margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #a64dff;
     }
   </style>
   <script src="https://js-dos.com/6.22/current/js-dos.js"></script>
@@ -69,81 +54,44 @@
 
   <h1>🎮 Welcome to SkyRoads Playground</h1>
 
-  <!-- Section 1: Play SkyRoads -->
+  <!-- Section: Game Start -->
   <section>
     <h2>1. Play SkyRoads</h2>
-    <div id="dosbox" style="width: 640px; height: 400px; margin: 0 auto;"></div>
+    <button onclick="startGame()">Click to Play the Game</button>
   </section>
 
-  <!-- Section 1.1: Leave a Review -->
-  <section>
-    <h3>1.1 Leave a Review</h3>
-    <form onsubmit="event.preventDefault(); submitReview();">
-      <textarea id="reviewInput" placeholder="Write your review here..." rows="5" required oninput="playReviewMusic();"></textarea><br><br>
-      <button type="submit">Submit Review</button>
-    </form>
-    <p id="reviewTextDisplay"></p>
-    <audio id="review-audio" loop>
-      <source src="https://cdn.pixabay.com/audio/2022/03/04/audio_5a2953009f.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-  </section>
-
-  <!-- Section 2: Tell Me a Story -->
-  <section>
-    <h2>2. Tell Me a Story</h2>
-    <form onsubmit="event.preventDefault(); submitStory();">
-      <textarea id="storyInput" rows="10" maxlength="2000" placeholder="Write your story here (max 300 words)..." oninput="playStoryMusic();"></textarea><br><br>
-      <button type="submit">Submit Story</button>
-    </form>
-    <p id="submittedStory"></p>
-    <audio id="story-audio" loop>
-      <source src="https://cdn.pixabay.com/audio/2023/03/13/audio_6d187746dc.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-  </section>
+  <!-- Background Music -->
+  <audio id="background-audio" loop autoplay>
+    <source src="https://cdn.pixabay.com/audio/2022/03/13/audio_6d187746dc.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <script>
-    // Load SkyRoads
-    Dos(document.getElementById("dosbox"), {
-      wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js",
-    }).ready((fs, main) => {
-      fs.extract("https://js-dos.com/cdn/upload/skyroads.zip").then(() => {
-        main(["-c", "skyroads"]);
+    function startGame() {
+      // Hide the button and start the game
+      document.querySelector("button").style.display = "none";
+      
+      // Create the game container
+      const gameContainer = document.createElement('div');
+      gameContainer.id = "dosbox";
+      gameContainer.style.width = "100%";
+      gameContainer.style.height = "100vh";
+      gameContainer.style.position = "absolute";
+      gameContainer.style.top = "0";
+      gameContainer.style.left = "0";
+      gameContainer.style.zIndex = "9999";
+      
+      // Append the game container to the body
+      document.body.appendChild(gameContainer);
+      
+      // Initialize and load SkyRoads game
+      Dos(gameContainer, {
+        wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js",
+      }).ready((fs, main) => {
+        fs.extract("https://js-dos.com/cdn/upload/skyroads.zip").then(() => {
+          main(["-c", "skyroads"]);
+        });
       });
-    });
-
-    // Review Submission
-    function submitReview() {
-      const text = document.getElementById("reviewInput").value.trim();
-      document.getElementById("reviewTextDisplay").innerText = "📝 Your review:\n\n" + text;
-      document.getElementById("reviewInput").value = "";
-    }
-
-    // Story Submission
-    function submitStory() {
-      const text = document.getElementById("storyInput").value.trim();
-      if (text.split(" ").length > 300) {
-        alert("Please keep your story under 300 words.");
-        return;
-      }
-      document.getElementById("submittedStory").innerText = "📖 Your story:\n\n" + text;
-      document.getElementById("storyInput").value = "";
-    }
-
-    // Auto-play music while typing
-    function playReviewMusic() {
-      const audio = document.getElementById("review-audio");
-      if (audio.paused) {
-        audio.play();
-      }
-    }
-
-    function playStoryMusic() {
-      const audio = document.getElementById("story-audio");
-      if (audio.paused) {
-        audio.play();
-      }
     }
   </script>
 
